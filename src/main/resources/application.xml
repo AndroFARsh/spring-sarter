@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <bean class="com.farshonok.spring.bfpp.LogBeanFactoryPostProcessor"/>
+    <bean class="com.farshonok.spring.bfpp.VerifyPropertyBeanFactoryPostProcessor" />
+
+    <bean id="connectionPool" class="com.farshonok.spring.database.pool.ConnectionPool"
+          init-method="initialize"
+          destroy-method="destroyMethod"
+    >
+        <constructor-arg value="${db.username}" />
+        <constructor-arg value="${db.pool.size}" />
+        <constructor-arg>
+            <list>
+                <value>--arg1=value1</value>
+                <value>--arg2=value2</value>
+            </list>
+        </constructor-arg>
+        <constructor-arg>
+            <map/>
+        </constructor-arg>
+        <property name="properties" >
+            <map>
+                <entry key="url" value="${db.url}" />
+                <entry key="password" value="${db.password}" />
+                <entry key="driver" value="${db.driver}"/>
+                <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>
+                <entry key="currentUser" value="${user.name}"/>
+                <entry key="systemProperty.currentUser" value="#{systemProperties['user.name']}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="userRepository" class="com.farshonok.spring.database.repository.UserRepository" >
+        <constructor-arg ref="connectionPool"/>
+    </bean>
+</beans>
