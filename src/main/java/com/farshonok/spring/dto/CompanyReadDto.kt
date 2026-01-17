@@ -1,3 +1,3 @@
 package com.farshonok.spring.dto
 
-class CompanyReadDto(id: Int)
+class CompanyReadDto(val id: Int)
