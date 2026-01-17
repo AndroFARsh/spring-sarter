@@ -33,7 +33,6 @@ class CompanyServiceMockitoTest {
         doReturn(Optional.of(Company(COMPANY_ID)))
             .`when`(companyRepository).findById(COMPANY_ID)
 
-        // Add your test logic here
         val dto = companyService.findById(1)
         assertTrue(dto.isPresent)
         assertEquals(COMPANY_ID, dto.get().id)
