@@ -1,5 +1,11 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '2.2.20'
+    // kotlin + kotlin-spring
+    id 'org.jetbrains.kotlin.jvm' version '2.2.21'
+    id 'org.jetbrains.kotlin.plugin.spring' version '2.2.21'
+
+    // spring boot
+    id 'org.springframework.boot' version '4.0.0'
+    id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'org.example'
@@ -9,26 +15,25 @@ repositories {
     mavenCentral()
 }
 
-ext {
-    springVersion = '7.0.0'
-
-    deps = [
-       springCore : "org.springframework:spring-core:$springVersion",
-       springContext : "org.springframework:spring-context:$springVersion",
-    ]
-}
 
 dependencies {
-    implementation deps.springCore
-    implementation deps.springContext
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.postgresql:postgresql'
 
-    testImplementation 'org.jetbrains.kotlin:kotlin-test'
-}
+    // kotlin reflection
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
-test {
-    useJUnitPlatform()
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 kotlin {
     jvmToolchain(22)
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
 }

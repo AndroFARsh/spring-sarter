@@ -1,33 +1,39 @@
 package com.farshonok.spring.database.pool
 
+import com.farshonok.spring.configs.DatabaseProperties
+import jakarta.annotation.PostConstruct
+import jakarta.annotation.PreDestroy
 import org.springframework.beans.factory.DisposableBean
 import org.springframework.beans.factory.InitializingBean
-import java.util.Objects
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Primary
+import org.springframework.stereotype.Component
 
-class ConnectionPool(
-    val userName: String,
-    val poolSize: Int,
-    val args: List<Object>,
-    properties: Map<String, Object>,
+@Primary
+@Component
+class ConnectionPool(val props: DatabaseProperties
+//    @Value("\${db.username}") val userName: String,
+//    @Value("\${db.pool.size}") val poolSize: Int,
+//   // val args: List<Object>,
+   // properties: Map<String, Object>,
 ) : InitializingBean, DisposableBean {
 
-    var properties: Map<String, Object> = properties
-        get
-        set(value) {
-            println("properties::set $value")
-            field = value
-        }
+    init {
+        println("constructor")
+    }
 
-    fun initialize() {
-        println("initialize::Initializing...")
+    @PostConstruct
+    fun preInitialize() {
+        println("preInitialize::Initializing...")
     }
 
     override fun afterPropertiesSet() {
         println("afterPropertiesSet::Initializing...")
     }
 
-    fun destroyMethod(){
-        println("destroyMethod::Destroying...")
+    @PreDestroy
+    fun preDestroy() {
+        println("preDestroy::Destroying...")
     }
 
     override fun destroy(){
