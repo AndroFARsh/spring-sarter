@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class UserRepository(
-    private val connectionPool: ConnectionPool
+    val connectionPool: ConnectionPool
 )
 
 
