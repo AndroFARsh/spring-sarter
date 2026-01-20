@@ -15,13 +15,13 @@ import jakarta.persistence.Table
 @Entity
 @Table(name = "company")
 data class Company(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override var id: Int = 0,
-
     @Column(nullable = false, unique = true)
     var name: String,
 ) : BaseEntity<Int> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    override var id: Int = 0
+
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "company_locales", joinColumns = [JoinColumn(name = "company_id")])
     @MapKeyColumn(name = "lang")

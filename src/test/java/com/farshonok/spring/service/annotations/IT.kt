@@ -13,4 +13,4 @@ import java.lang.annotation.Target
 @ActiveProfiles("test")
 @SpringBootTest(classes = [com.farshonok.spring.service.TestApplicationRunner::class])
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-annotation class IntegrationsTests
+annotation class IT

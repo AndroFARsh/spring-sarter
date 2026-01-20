@@ -30,7 +30,7 @@ class CompanyServiceMockitoTest {
 
     @Test
     fun findById() {
-        doReturn(Optional.of(Company(COMPANY_ID, "")))
+        doReturn(Optional.of(Company("").apply { id = COMPANY_ID }))
             .`when`(companyRepository).findById(COMPANY_ID)
 
         val dto = companyService.findById(1)

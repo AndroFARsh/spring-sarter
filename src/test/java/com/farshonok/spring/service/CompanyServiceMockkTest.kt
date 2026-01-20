@@ -24,7 +24,7 @@ class CompanyServiceMockkTest {
     fun setUp() {
         companyService = CompanyService(companyRepository, userService, eventPublisher)
 
-        every { companyRepository.findById(COMPANY_ID) } returns Optional.of(Company(COMPANY_ID, ""))
+        every { companyRepository.findById(COMPANY_ID) } returns Optional.of(Company("").apply { id=COMPANY_ID })
     }
 
     @Test

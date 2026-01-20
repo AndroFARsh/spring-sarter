@@ -2,12 +2,11 @@ package com.farshonok.spring.service.integrations
 
 import com.farshonok.spring.database.pool.ConnectionPool
 import com.farshonok.spring.service.UserService
-import com.farshonok.spring.service.annotations.IntegrationsTests
+import com.farshonok.spring.service.annotations.IT
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.test.context.bean.override.mockito.MockitoSpyBean
 
-@IntegrationsTests
+@IT
 class UserServiceIT {
 
     @Autowired

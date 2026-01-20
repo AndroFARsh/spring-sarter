@@ -1,7 +1,7 @@
 package com.farshonok.spring.service.integrations
 
 import com.farshonok.spring.service.CompanyService
-import com.farshonok.spring.service.annotations.IntegrationsTests
+import com.farshonok.spring.service.annotations.IT
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 //@ContextConfiguration(classes = [DemoApplication::class], initializers = [ConfigDataApplicationContextInitializer::class])
 //@ActiveProfiles("test")
 //@SpringBootTest
-@IntegrationsTests
+@IT
 class CompanyServiceIT(
     val companyService: CompanyService
 ) {
