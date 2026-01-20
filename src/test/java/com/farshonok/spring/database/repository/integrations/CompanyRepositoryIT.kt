@@ -8,21 +8,24 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.springframework.test.annotation.Commit
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionTemplate
 
 @IT
-@Transactional
-//@Commit
 class CompanyRepositoryIT(
     val entityManager: EntityManager,
+    val transactionTemplate: TransactionTemplate
 ) {
     @Test
     fun findById() {
-        val company:Company = entityManager.find(Company::class.java, 1L)
-        assertNotNull(company)
-        assertThat(company.description).hasSize(2)
+        transactionTemplate.execute {
+            val company:Company = entityManager.find(Company::class.java, 1L)
+            assertNotNull(company)
+            assertThat(company.description).hasSize(2)
+        }
     }
 
-
+    @Transactional
+    //@Commit
     @Test
     fun save() {
         val company = Company(name = "Apple").apply {
