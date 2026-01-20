@@ -8,7 +8,7 @@ import java.util.Optional
 class CompanyRepository() : CrudRepository<Int, Company>{
     override fun findById(id: Int): Optional<Company> {
         println("findById company by id: $id")
-        return Optional.of(Company(id))
+        return Optional.of(Company(id, ""))
     }
 
     override fun delete(id: Int): Boolean {
