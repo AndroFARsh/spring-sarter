@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.MapKeyColumn
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 
 @Entity
@@ -27,4 +28,7 @@ data class Company(
     @MapKeyColumn(name = "lang")
     //@MapValueColumn(name = "description")
     var description: Map<String, String> = mutableMapOf()
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "company")
+    var users: MutableList<User> = mutableListOf()
 }

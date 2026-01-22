@@ -1,6 +1,5 @@
 package com.farshonok.spring.database.pool
 
-import com.farshonok.spring.configs.DatabaseProperties
 import jakarta.annotation.PostConstruct
 import jakarta.annotation.PreDestroy
 import org.springframework.beans.factory.DisposableBean
@@ -11,12 +10,7 @@ import org.springframework.stereotype.Component
 
 @Primary
 @Component
-class ConnectionPool(val props: DatabaseProperties
-//    @Value("\${db.username}") val userName: String,
-//    @Value("\${db.pool.size}") val poolSize: Int,
-//   // val args: List<Object>,
-   // properties: Map<String, Object>,
-) : InitializingBean, DisposableBean {
+class ConnectionPool : InitializingBean, DisposableBean {
 
     init {
         println("constructor")

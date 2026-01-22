@@ -1,11 +1,8 @@
 package com.farshonok.spring.database.repository
 
-import com.farshonok.spring.database.pool.ConnectionPool
-import org.springframework.stereotype.Repository
+import com.farshonok.spring.database.entities.User
+import org.springframework.data.repository.Repository
 
-@Repository
-class UserRepository(
-    val connectionPool: ConnectionPool
-)
+interface UserRepository : Repository<User, Int>
 
 

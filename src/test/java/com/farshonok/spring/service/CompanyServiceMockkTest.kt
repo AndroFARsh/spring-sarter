@@ -1,7 +1,7 @@
 package com.farshonok.spring.service
 
 import com.farshonok.spring.database.entities.Company
-import com.farshonok.spring.database.repository.CrudRepository
+import com.farshonok.spring.database.repository.CompanyRepository
 import com.farshonok.spring.events.EntityEvent
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +14,7 @@ import java.util.Optional
 
 class CompanyServiceMockkTest {
 
-    private val companyRepository: CrudRepository<Int, Company> = mockk(relaxed = true)
+    private val companyRepository: CompanyRepository = mockk(relaxed = true)
     private val userService: UserService = mockk(relaxed = true)
     private val eventPublisher: ApplicationEventPublisher = mockk(relaxed = true)
 

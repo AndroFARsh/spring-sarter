@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS users
     firstname VARCHAR(64),
     lastname VARCHAR(64),
     role VARCHAR(32),
-    company_id INT REFERENCES company (id)
+    company_id INT REFERENCES company (id) ON DELETE SET NULL
     );
 
 CREATE TABLE IF NOT EXISTS payment
