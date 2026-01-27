@@ -12,7 +12,13 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.MapKeyColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
+//import org.hibernate.annotations.NamedQuery
+import jakarta.persistence.NamedQuery
 
+@NamedQuery(
+    name = "Company.findByName",
+    query = "SELECT c FROM Company c WHERE lower(c.name) = lower(:name)"
+)
 @Entity
 @Table(name = "company")
 data class Company(

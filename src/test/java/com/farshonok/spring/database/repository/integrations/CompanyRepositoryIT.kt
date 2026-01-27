@@ -65,7 +65,7 @@ class CompanyRepositoryIT(
     //@Commit
     @Test
     fun findByQueries() {
-        val maybeCompany =  companyRepository.findByName("Google")
+        val maybeCompany =  companyRepository.findByName("google")
         assertTrue(maybeCompany.isPresent)
         val companies = companyRepository.findAllByNameContainsIgnoreCase("a")
         assertTrue(companies.size == 2)
