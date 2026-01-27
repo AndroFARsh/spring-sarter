@@ -40,6 +40,15 @@ class CompanyRepositoryIT(
     @Transactional
     //@Commit
     @Test
+    fun deleteById() {
+        companyRepository.deleteById(1)
+        entityManager.flush()
+        assertTrue(companyRepository.findById(1).isEmpty)
+    }
+
+    @Transactional
+    //@Commit
+    @Test
     fun save() {
         val company = Company(name = "Apple").apply {
             description = mapOf(
@@ -50,5 +59,15 @@ class CompanyRepositoryIT(
 
         entityManager.persist(company)
         assertThat(company.id).isGreaterThan(0)
+    }
+
+    @Transactional
+    //@Commit
+    @Test
+    fun findByQueries() {
+        val maybeCompany =  companyRepository.findByName("Google")
+        assertTrue(maybeCompany.isPresent)
+        val companies = companyRepository.findAllByNameContainsIgnoreCase("a")
+        assertTrue(companies.size == 2)
     }
 }
