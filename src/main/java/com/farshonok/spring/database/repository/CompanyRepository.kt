@@ -17,4 +17,11 @@ interface CompanyRepository : JpaRepository<Company, Int> {
 
     // can return List, Stream
     fun findAllByNameContainsIgnoreCase(fragment: String): List<Company>
+
+    @Query("""
+        SELECT c FROM Company c
+        JOIN FETCH c.description
+        WHERE lower(c.name) = lower(:name) 
+    """)
+    fun findByNameIgnoreCase(name: String): Optional<Company>
 }
