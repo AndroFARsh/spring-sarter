@@ -105,8 +105,29 @@ class UserRepositoryIT(
         val users2 = userRepository.findBy(pageable2)
 
         assertEquals(users1.size, users2.size)
-        for (i in users1.indices) {
-            assertEquals(users1[i], users2[i])
+
+        val it1 = users1.iterator()
+        val it2 = users2.iterator()
+        while (it1.hasNext() && it2.hasNext()) {
+            assertEquals(it1.next(), it2.next())
         }
+
+        assertEquals(users1.number, 1)
+        assertEquals(users1.totalPages, 3)
+        assertEquals(users1.totalElements, 5)
+
+        var slice = users1
+        var sliceCount = 1
+        while (slice.hasNext()) {
+            slice = userRepository.findBy(slice.nextPageable())
+            sliceCount++
+        }
+        assertEquals(sliceCount, 2)
+
+        val pageable3 = PageRequest.of(0, 2, sort1)
+        val page = userRepository.findBy(pageable3)
+        assertEquals(page.number, 0)
+        assertEquals(page.totalPages, 3)
+        assertEquals(page.totalElements, 5)
     }
 }

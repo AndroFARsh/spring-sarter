@@ -2,7 +2,9 @@ package com.farshonok.spring.database.repository
 
 import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.database.entities.User
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
@@ -43,7 +45,14 @@ interface UserRepository : JpaRepository<User, Int> {
 
     fun findTopBy(sort: Sort): Optional<User>
 
-    fun findBy(pageable: Pageable): List<User>
+    // We can override page count query with @Query annotation
+    @Query(
+        value = "select u from User u",
+        countQuery = "select count(distinct u.firstName) from User u"
+    )
+    // Allowed return types: Collection, Stream
+    // Spring specific: Streamable, Slice, Page
+    fun findBy(pageable: Pageable): Page<User>
 }
 
 
