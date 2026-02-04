@@ -29,24 +29,32 @@ enum class Role {
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override var id: Int = 0,
+    override val id: Int = 0,
 
     @Column(name = "username", nullable = false, unique = true)
-    var name: String,
+    override var name: String,
     @Column(name = "firstname")
-    var firstName: String,
+    override var firstName: String,
     @Column(name = "lastname")
-    var lastName: String,
+    override var lastName: String,
 
     @Column(name = "birth_date")
-    var birthDate: LocalDate?,
+    override var birthDate: LocalDate?,
     @Enumerated(EnumType.STRING)
-    var role: Role,
-) : BaseEntity<Int> {
+    override var role: Role,
+) : BaseEntity<Int>, UserSearch {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     var company: Company? = null
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     var userChats: MutableList<UserChat> = mutableListOf()
+}
+
+interface UserSearch {
+    val name: String
+    val firstName: String
+    val lastName: String
+    val birthDate: LocalDate?
+    val role: Role
 }

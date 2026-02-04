@@ -2,10 +2,12 @@ package com.farshonok.spring.database.repository
 
 import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.database.entities.User
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
-import org.springframework.stereotype.Repository
+import java.util.*
 
 // Annotation @Repository is optional if we extend org.springframework.data.repository.Repository
 //@Repository
@@ -32,6 +34,16 @@ interface UserRepository : JpaRepository<User, Int> {
         where u.id in (:ids)
     """)
     fun updateRole(role: Role, vararg ids: Int): Int
+
+    fun findFirstByOrderByIdDesc(): Optional<User>
+
+    fun findTopByOrderByIdDesc(): List<User>
+
+    fun findTop3ByOrderByIdDesc(): List<User>
+
+    fun findTopBy(sort: Sort): Optional<User>
+
+    fun findBy(pageable: Pageable): List<User>
 }
 
 
