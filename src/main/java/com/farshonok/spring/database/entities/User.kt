@@ -16,6 +16,7 @@ import jakarta.persistence.MapKeyColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
+import org.hibernate.annotations.NamedEntityGraph
 import java.time.LocalDate
 
 enum class Role {
@@ -24,6 +25,7 @@ enum class Role {
     GUEST
 }
 
+@NamedEntityGraph(name = "User.company", graph = "company")
 @Entity
 @Table(name = "users")
 data class User(

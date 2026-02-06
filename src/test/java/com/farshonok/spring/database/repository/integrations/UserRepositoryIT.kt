@@ -130,4 +130,36 @@ class UserRepositoryIT(
         assertEquals(page.totalPages, 3)
         assertEquals(page.totalElements, 5)
     }
+
+    @Test
+    fun findWithNamedGraphBy() {
+        val sort: Sort = Sort.by(User_.FIRST_NAME).descending()
+            .and(Sort.by(User_.LAST_NAME))
+        val pageable = PageRequest.of(0, 2, sort)
+
+        val users = userRepository.findWithNamedGraphBy(pageable)
+        users.forEach { u -> assertTrue { u.company != null } }
+
+        assertEquals(users.size, 2)
+        assertEquals(users.number, 0)
+        assertEquals(users.totalPages, 3)
+        assertEquals(users.totalElements, 5)
+    }
+
+    @Test
+    fun findWithAttrGraphBy() {
+        val sort: Sort = Sort.by(User_.FIRST_NAME).descending()
+            .and(Sort.by(User_.LAST_NAME))
+        val pageable = PageRequest.of(0, 2, sort)
+
+        val users = userRepository.findWithAttrGraphBy(pageable)
+        users.forEach { u -> println(u.company?.name) }
+
+        // limit and offset not work roperly with @EntityGraph and @OneToMany relations
+
+        assertEquals(users.size, 2)
+        assertEquals(users.number, 0)
+        assertEquals(users.totalPages, 3)
+        assertEquals(users.totalElements, 5)
+    }
 }

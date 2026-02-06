@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -45,6 +46,7 @@ interface UserRepository : JpaRepository<User, Int> {
 
     fun findTopBy(sort: Sort): Optional<User>
 
+
     // We can override page count query with @Query annotation
     @Query(
         value = "select u from User u",
@@ -53,6 +55,18 @@ interface UserRepository : JpaRepository<User, Int> {
     // Allowed return types: Collection, Stream
     // Spring specific: Streamable, Slice, Page
     fun findBy(pageable: Pageable): Page<User>
+
+
+
+    @EntityGraph(value = "User.company", type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select u from User u",
+        countQuery = "select count(distinct u.firstName) from User u"
+    )
+    fun findWithNamedGraphBy(pageable: Pageable): Page<User>
+
+    @EntityGraph(attributePaths = ["company", "company.description"], type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select u from User u")
+    fun findWithAttrGraphBy(pageable: Pageable): Page<User>
 }
 
 
