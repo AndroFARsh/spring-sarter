@@ -1,8 +1,6 @@
 package com.farshonok.spring.database.entities
 
-import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
-import jakarta.persistence.ElementCollection
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
 import jakarta.persistence.Enumerated
@@ -12,9 +10,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
-import jakarta.persistence.MapKeyColumn
 import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.hibernate.annotations.NamedEntityGraph
 import java.time.LocalDate
@@ -28,13 +24,9 @@ enum class Role {
 @NamedEntityGraph(name = "User.company", graph = "company")
 @Entity
 @Table(name = "users")
-data class User(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Int = 0,
-
+class User(
     @Column(name = "username", nullable = false, unique = true)
-    override var name: String,
+    override var email: String,
     @Column(name = "firstname")
     override var firstName: String,
     @Column(name = "lastname")
@@ -44,7 +36,11 @@ data class User(
     override var birthDate: LocalDate?,
     @Enumerated(EnumType.STRING)
     override var role: Role,
-) : BaseEntity<Int>, UserSearch {
+) : AuditingEntity<Int>(), UserSearch {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    override val id: Int = 0
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     var company: Company? = null
@@ -54,7 +50,7 @@ data class User(
 }
 
 interface UserSearch {
-    val name: String
+    val email: String
     val firstName: String
     val lastName: String
     val birthDate: LocalDate?

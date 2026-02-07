@@ -1,7 +1,9 @@
 package com.farshonok.spring.database.repository.integrations
 
+import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.database.entities.Role.ADMIN
 import com.farshonok.spring.database.entities.Role.USER
+import com.farshonok.spring.database.entities.User
 import com.farshonok.spring.database.entities.UserSearch
 import com.farshonok.spring.database.entities.User_
 import com.farshonok.spring.database.repository.UserRepository
@@ -11,11 +13,14 @@ import com.farshonok.spring.dto.IPersonaInfo
 import com.farshonok.spring.dto.PersonaInfo
 import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.annotations.IT
+import jakarta.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
+import org.junit.jupiter.api.assertNull
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.transaction.annotation.Transactional
@@ -24,7 +29,7 @@ import java.time.LocalDate
 @IT
 @Transactional
 class UserRepositoryIT(
-    val userRepository: UserRepository
+    val userRepository: UserRepository,
 ) {
     @Test
     fun findAllBy() {
@@ -205,5 +210,46 @@ class UserRepositoryIT(
     fun customFilterUserRepositoryInterface() {
         val users = userRepository.findAllByFilter(UserFilter(lastName = "%ov%"))
         assertTrue { users.isNotEmpty() }
+    }
+
+    @Test
+    fun user_audit_test() {
+        val user = User(
+            email = "anton@gmail.com",
+            firstName = "Anton",
+            lastName = "Krup",
+            birthDate = LocalDate.now().minusYears(20),
+            role = USER
+        )
+        userRepository.save(user)
+        userRepository.flush()
+
+        assertTrue { user.id > 0 }
+        assertNotNull(user.createdAt)
+        assertEquals(user.createdAt, user.modifiedAt)
+
+        user.role = ADMIN
+
+        userRepository.save(user)
+        userRepository.flush()
+
+        assertNotNull(user.createdAt)
+        assertNotEquals(user.createdAt, user.modifiedAt)
+
+        val maybeUser1 = userRepository.findById(1)
+
+        assertTrue { maybeUser1.isPresent }
+
+        val user1 = maybeUser1.get()
+
+        assertNull(user1.createdAt)
+        assertNull(user1.modifiedAt)
+
+        user1.firstName = "New name"
+        userRepository.flush()
+
+        assertNull(user1.createdAt)
+        assertNotNull(user1.modifiedAt)
+
     }
 }

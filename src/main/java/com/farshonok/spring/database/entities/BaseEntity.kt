@@ -5,3 +5,4 @@ import java.io.Serializable
 interface BaseEntity<T: Serializable> {
     val id: T
 }
+
