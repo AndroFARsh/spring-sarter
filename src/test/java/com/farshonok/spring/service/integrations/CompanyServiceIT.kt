@@ -1,19 +1,16 @@
 package com.farshonok.spring.service.integrations
 
+import com.farshonok.spring.BaseIntegrationTest
 import com.farshonok.spring.service.CompanyService
-import com.farshonok.spring.service.annotations.IT
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import org.springframework.transaction.annotation.Transactional
 
-@IT
-@Transactional
 class CompanyServiceIT(
     val entityManager: EntityManager,
     val companyService: CompanyService
-) {
+) : BaseIntegrationTest() {
     @Test
     fun findById() {
         val dto = companyService.findById(1)

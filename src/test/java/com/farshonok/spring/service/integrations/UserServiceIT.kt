@@ -1,13 +1,12 @@
 package com.farshonok.spring.service.integrations
 
+import com.farshonok.spring.BaseIntegrationTest
 import com.farshonok.spring.database.pool.ConnectionPool
 import com.farshonok.spring.service.UserService
-import com.farshonok.spring.service.annotations.IT
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-@IT
-class UserServiceIT {
+class UserServiceIT : BaseIntegrationTest() {
 
     @Autowired
     lateinit var userService: UserService

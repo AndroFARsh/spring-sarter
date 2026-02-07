@@ -1,6 +1,6 @@
 package com.farshonok.spring.database.repository.integrations
 
-import com.farshonok.spring.database.entities.Role
+import com.farshonok.spring.BaseIntegrationTest
 import com.farshonok.spring.database.entities.Role.ADMIN
 import com.farshonok.spring.database.entities.Role.USER
 import com.farshonok.spring.database.entities.User
@@ -12,7 +12,6 @@ import com.farshonok.spring.database.repository.UserRepository.Companion.queryAl
 import com.farshonok.spring.dto.IPersonaInfo
 import com.farshonok.spring.dto.PersonaInfo
 import com.farshonok.spring.dto.UserFilter
-import com.farshonok.spring.service.annotations.IT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
@@ -22,17 +21,11 @@ import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
-import org.springframework.test.annotation.Commit
-import org.springframework.test.context.jdbc.Sql
-import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
-@Sql("classpath:db/data.sql")
-@IT
-@Transactional
 class UserRepositoryIT(
     val userRepository: UserRepository,
-) {
+) : BaseIntegrationTest() {
     @Test
     fun findAllBy() {
         val users = userRepository.findAllBy("a", "ov")

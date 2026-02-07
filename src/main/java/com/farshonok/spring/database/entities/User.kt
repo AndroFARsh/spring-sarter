@@ -1,5 +1,6 @@
 package com.farshonok.spring.database.entities
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -13,6 +14,8 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.NamedEntityGraph
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import org.hibernate.envers.Audited
 import org.hibernate.envers.NotAudited
 import org.hibernate.envers.RelationTargetAuditMode
@@ -29,8 +32,13 @@ enum class Role {
 @Entity
 @Table(name = "users")
 class User(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    override val id: Int = 0,
+
     @Column(name = "username", nullable = false, unique = true)
     override var email: String,
+
     @Column(name = "firstname")
     override var firstName: String,
     @Column(name = "lastname")
@@ -41,12 +49,9 @@ class User(
     @Enumerated(EnumType.STRING)
     override var role: Role,
 ) : AuditingEntity<Int>(), UserSearch {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Int = 0
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "company_id")
+    @JoinColumn(name = "company_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     var company: Company? = null
 
     @NotAudited
