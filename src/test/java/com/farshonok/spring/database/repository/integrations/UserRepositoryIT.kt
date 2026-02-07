@@ -267,4 +267,19 @@ class UserRepositoryIT(
         assertTrue { users.isNotEmpty() }
         assertEquals(users[0].firstName, "Petr")
     }
+
+
+    @Test
+    fun jdbc_template_update_test() {
+        val users = userRepository.findAll()
+        users.forEach { user -> user.role = USER }
+
+        val count1 = userRepository.updateCompanyAndRole(users)
+        assertTrue { count1 > 0 }
+
+        val count2 = userRepository.updateCompanyAndRoleNamed(users)
+        assertTrue { count2 > 0 }
+
+        assertEquals(count1, count2)
+    }
 }
