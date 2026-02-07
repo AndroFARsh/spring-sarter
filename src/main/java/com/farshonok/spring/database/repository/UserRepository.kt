@@ -11,11 +11,16 @@ import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.history.RevisionRepository
 import java.util.*
 
 // Annotation @Repository is optional if we extend org.springframework.data.repository.Repository
 //@Repository
-interface UserRepository : JpaRepository<User, Int>, FilterUserRepository {
+interface UserRepository :
+    JpaRepository<User, Int>,
+    FilterUserRepository,
+    RevisionRepository<User, Int, Int>
+{
     @Query("""
         select u from User u
         where u.firstName like %:firstname% and u.lastName like %:lastname%

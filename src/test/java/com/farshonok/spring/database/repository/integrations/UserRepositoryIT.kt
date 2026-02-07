@@ -1,6 +1,5 @@
 package com.farshonok.spring.database.repository.integrations
 
-import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.database.entities.Role.ADMIN
 import com.farshonok.spring.database.entities.Role.USER
 import com.farshonok.spring.database.entities.User
@@ -13,7 +12,6 @@ import com.farshonok.spring.dto.IPersonaInfo
 import com.farshonok.spring.dto.PersonaInfo
 import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.annotations.IT
-import jakarta.persistence.EntityManager
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotEquals
@@ -23,6 +21,7 @@ import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.test.annotation.Commit
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDate
 
@@ -250,6 +249,10 @@ class UserRepositoryIT(
 
         assertNull(user1.createdAt)
         assertNotNull(user1.modifiedAt)
+
+        val rev = userRepository.findRevision(user1.id, 1)
+        // Test should have annotation @Commit
+//        assertTrue { rev.isPresent }
 
     }
 }

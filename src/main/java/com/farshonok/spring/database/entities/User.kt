@@ -13,6 +13,9 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.hibernate.annotations.NamedEntityGraph
+import org.hibernate.envers.Audited
+import org.hibernate.envers.NotAudited
+import org.hibernate.envers.RelationTargetAuditMode
 import java.time.LocalDate
 
 enum class Role {
@@ -21,6 +24,7 @@ enum class Role {
     GUEST
 }
 
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @NamedEntityGraph(name = "User.company", graph = "company")
 @Entity
 @Table(name = "users")
@@ -45,6 +49,7 @@ class User(
     @JoinColumn(name = "company_id")
     var company: Company? = null
 
+    @NotAudited
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     var userChats: MutableList<UserChat> = mutableListOf()
 }
