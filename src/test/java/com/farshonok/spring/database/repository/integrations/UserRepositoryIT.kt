@@ -227,10 +227,10 @@ class UserRepositoryIT(
         assertTrue { user.id > 0 }
         assertNotNull(user.createdAt)
         assertEquals(user.createdAt, user.modifiedAt)
+        assertEquals(user.createdBy, "farshonok")
 
         user.role = ADMIN
 
-        userRepository.save(user)
         userRepository.flush()
 
         assertNotNull(user.createdAt)
