@@ -2,6 +2,7 @@ package com.farshonok.spring.database.repository
 
 import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.database.entities.User
+import com.farshonok.spring.dto.PersonaInfo
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -67,6 +68,31 @@ interface UserRepository : JpaRepository<User, Int> {
     @EntityGraph(attributePaths = ["company", "company.description"], type = EntityGraph.EntityGraphType.FETCH)
     @Query(value = "select u from User u")
     fun findWithAttrGraphBy(pageable: Pageable): Page<User>
+
+
+    @Query("""
+       SELECT 
+        firstname,
+        lastname,
+        birth_date 
+       FROM users 
+       WHERE company_id = :companyId 
+    """, nativeQuery = true)
+    fun <T>  findAllNativeByCompanyId(companyId: Int, clazz: Class<T>): List<T>
+
+    fun findAllByCompanyId(companyId: Int): List<PersonaInfo>
+
+    fun <T> queryAllByCompanyId(companyId: Int, clazz: Class<T>): List<T>
+
+    companion object {
+        inline fun <reified T> UserRepository.queryAllByCompanyId(companyId: Int): List<T> =
+            queryAllByCompanyId(companyId, T::class.java)
+
+        inline fun <reified T> UserRepository.findAllNativeByCompanyId(companyId: Int) : List<T> =
+            findAllNativeByCompanyId(companyId, T::class.java)
+    }
 }
+
+
 
 

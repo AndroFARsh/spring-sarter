@@ -5,11 +5,16 @@ import com.farshonok.spring.database.entities.Role.USER
 import com.farshonok.spring.database.entities.UserSearch
 import com.farshonok.spring.database.entities.User_
 import com.farshonok.spring.database.repository.UserRepository
+import com.farshonok.spring.database.repository.UserRepository.Companion.findAllNativeByCompanyId
+import com.farshonok.spring.database.repository.UserRepository.Companion.queryAllByCompanyId
+import com.farshonok.spring.dto.IPersonaInfo
+import com.farshonok.spring.dto.PersonaInfo
 import com.farshonok.spring.service.annotations.IT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertNotNull
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.transaction.annotation.Transactional
@@ -161,5 +166,37 @@ class UserRepositoryIT(
         assertEquals(users.number, 0)
         assertEquals(users.totalPages, 3)
         assertEquals(users.totalElements, 5)
+    }
+
+    @Test
+    fun findAllByCompanyId_Data_PersonInfo() {
+        val persons1 = userRepository.findAllByCompanyId(1)
+        assertTrue { persons1.isNotEmpty() }
+
+        assertEquals(persons1[0].firstName, "Ivan")
+        assertNotNull(persons1[0].lastName)
+        assertNotNull(persons1[0].birthDate)
+
+        val persons2 = userRepository.queryAllByCompanyId<PersonaInfo>(1)
+        assertTrue { persons2.isNotEmpty() }
+
+        assertEquals(persons1.size, persons2.size)
+        assertEquals(persons1, persons2)
+
+        val persons3 = userRepository.findAllNativeByCompanyId<PersonaInfo>(1)
+        assertTrue { persons3.isNotEmpty() }
+
+        assertEquals(persons1.size, persons3.size)
+        assertEquals(persons1, persons3)
+
+        val persons4 = userRepository.findAllNativeByCompanyId<IPersonaInfo>(1)
+        assertTrue { persons4.isNotEmpty() }
+
+        assertEquals(persons1.size, persons4.size)
+        for (i in 0..<persons1.size) {
+            assertEquals(persons1[i].firstName, persons4[i].firstName)
+            assertEquals(persons1[i].lastName, persons4[i].lastName)
+            assertEquals(persons1[i].birthDate, persons4[i].birthDate)
+        }
     }
 }
