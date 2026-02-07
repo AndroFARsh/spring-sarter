@@ -9,6 +9,7 @@ import com.farshonok.spring.database.repository.UserRepository.Companion.findAll
 import com.farshonok.spring.database.repository.UserRepository.Companion.queryAllByCompanyId
 import com.farshonok.spring.dto.IPersonaInfo
 import com.farshonok.spring.dto.PersonaInfo
+import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.annotations.IT
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -198,5 +199,11 @@ class UserRepositoryIT(
             assertEquals(persons1[i].lastName, persons4[i].lastName)
             assertEquals(persons1[i].birthDate, persons4[i].birthDate)
         }
+    }
+
+    @Test
+    fun customFilterUserRepositoryInterface() {
+        val users = userRepository.findAllByFilter(UserFilter(lastName = "%ov%"))
+        assertTrue { users.isNotEmpty() }
     }
 }

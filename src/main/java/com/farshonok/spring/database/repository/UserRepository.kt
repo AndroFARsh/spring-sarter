@@ -15,7 +15,7 @@ import java.util.*
 
 // Annotation @Repository is optional if we extend org.springframework.data.repository.Repository
 //@Repository
-interface UserRepository : JpaRepository<User, Int> {
+interface UserRepository : JpaRepository<User, Int>, FilterUserRepository {
     @Query("""
         select u from User u
         where u.firstName like %:firstname% and u.lastName like %:lastname%
