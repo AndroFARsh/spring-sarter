@@ -1,5 +1,6 @@
 package com.farshonok.spring.database.repository.integrations
 
+import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.database.entities.Role.ADMIN
 import com.farshonok.spring.database.entities.Role.USER
 import com.farshonok.spring.database.entities.User
@@ -258,5 +259,12 @@ class UserRepositoryIT(
         // Test should have annotation @Commit
 //        assertTrue { rev.isPresent }
 
+    }
+
+    @Test
+    fun jdbc_template_test() {
+        val users = userRepository.findAllByCompanyAndRole(1, USER)
+        assertTrue { users.isNotEmpty() }
+        assertEquals(users[0].firstName, "Petr")
     }
 }

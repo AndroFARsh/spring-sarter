@@ -13,6 +13,15 @@ db:
       timeout: 2
 
 #spring.profiles.active: qa
+
+logging:
+  level:
+    root: info
+    org.springframework.jdbc.core: trace
+  file:
+    name: build/logs/farshonok.log
+    path: /
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/

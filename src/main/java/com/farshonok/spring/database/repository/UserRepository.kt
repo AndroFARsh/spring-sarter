@@ -5,7 +5,6 @@ import com.farshonok.spring.database.entities.User
 import com.farshonok.spring.dto.PersonaInfo
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
@@ -22,6 +21,7 @@ interface UserRepository :
     FilterUserRepository,
     RevisionRepository<User, Int, Int>,
     QuerydslPredicateExecutor<User>,
+    JdbcUserRepository
 {
     @Query("""
         select u from User u
