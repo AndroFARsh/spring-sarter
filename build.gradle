@@ -11,7 +11,6 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.jpa' version '2.3.0'
     id 'org.jetbrains.kotlin.kapt' version '2.3.0'
 }
-//include "./libs.versions.toml"
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
@@ -26,6 +25,8 @@ dependencies {
     implementation 'org.postgresql:postgresql'
 
     implementation 'org.springframework.data:spring-data-envers'
+
+    implementation 'org.springframework.boot:spring-boot-starter-liquibase'
 
 //    implementation 'com.querydsl:querydsl-jpa'
 //    kapt 'com.querydsl:querydsl-apt'

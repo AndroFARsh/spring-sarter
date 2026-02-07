@@ -1,3 +1,6 @@
+--liquibase formatted sql
+
+--changeset farshonok:1
 ALTER TABLE users
     ADD COLUMN IF NOT EXISTS created_at TIMESTAMP;
 
