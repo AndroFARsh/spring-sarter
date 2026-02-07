@@ -207,8 +207,12 @@ class UserRepositoryIT(
 
     @Test
     fun customFilterUserRepositoryInterface() {
-        val users = userRepository.findAllByFilter(UserFilter(lastName = "%ov%"))
-        assertTrue { users.isNotEmpty() }
+        val users1 = userRepository.findAllByFilter(UserFilter(lastName = "%ov%"))
+        assertTrue { users1.isNotEmpty() }
+
+        val users2 = userRepository.findAllByFilterQueryDSL(UserFilter(lastName = "ov"))
+        assertEquals(users1.size,  users2.size)
+        assertEquals(users1,  users2)
     }
 
     @Test

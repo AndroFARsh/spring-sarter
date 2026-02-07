@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
+import org.springframework.data.querydsl.QuerydslPredicateExecutor
 import org.springframework.data.repository.history.RevisionRepository
 import java.util.*
 
@@ -19,7 +20,8 @@ import java.util.*
 interface UserRepository :
     JpaRepository<User, Int>,
     FilterUserRepository,
-    RevisionRepository<User, Int, Int>
+    RevisionRepository<User, Int, Int>,
+    QuerydslPredicateExecutor<User>,
 {
     @Query("""
         select u from User u
