@@ -1,15 +1,13 @@
 package com.farshonok.spring.database.repository
 
-import com.farshonok.spring.database.entities.QUser
 import com.farshonok.spring.database.entities.QUser.Companion.user
 import com.farshonok.spring.database.entities.User
-import com.farshonok.spring.database.entities.User_
 import com.farshonok.spring.database.querydsl.QPredicates
 import com.farshonok.spring.dto.UserFilter
-import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.jpa.impl.JPAQuery
 import jakarta.persistence.EntityManager
 import jakarta.persistence.criteria.Predicate
+import java.time.LocalDate
 
 interface FilterUserRepository {
     fun findAllByFilter(filter: UserFilter): List<User>
@@ -30,15 +28,15 @@ class FilterUserRepositoryImpl(
         val predicates = mutableListOf<Predicate>()
 
         filter.firsName?.let {
-            predicates.add(cb.like(user.get(User_.firstName), it))
+            predicates.add(cb.like(user.get("firstName"), it))
         }
 
         filter.lastName?.let {
-            predicates.add(cb.like(user.get(User_.lastName), it))
+            predicates.add(cb.like(user.get("lastName"), it))
         }
 
         filter.birthDate?.let {
-            predicates.add(cb.equal(user.get(User_.birthDate), it))
+            predicates.add(cb.equal(user.get<LocalDate>("birthDate"), it))
         }
 
         criteria.where(predicates)

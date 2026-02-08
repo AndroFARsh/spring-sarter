@@ -1,11 +1,11 @@
 package com.farshonok.spring.database.repository.integrations
 
 import com.farshonok.spring.BaseIntegrationTest
+import com.farshonok.spring.database.entities.QUser
 import com.farshonok.spring.database.entities.Role.ADMIN
 import com.farshonok.spring.database.entities.Role.USER
 import com.farshonok.spring.database.entities.User
 import com.farshonok.spring.database.entities.UserSearch
-import com.farshonok.spring.database.entities.User_
 import com.farshonok.spring.database.repository.UserRepository
 import com.farshonok.spring.database.repository.UserRepository.Companion.findAllNativeByCompanyId
 import com.farshonok.spring.database.repository.UserRepository.Companion.queryAllByCompanyId
@@ -77,8 +77,8 @@ class UserRepositoryIT(
 
     @Test
     fun findTopBySort() {
-        val sort1: Sort = Sort.by(User_.FIRST_NAME).descending()
-                .and(Sort.by(User_.LAST_NAME))
+        val sort1: Sort = Sort.by("firstName").descending()
+                .and(Sort.by("lastName"))
 
         val maybeUser1 = userRepository.findTopBy(sort1)
         assertTrue { maybeUser1.isPresent }
@@ -96,8 +96,8 @@ class UserRepositoryIT(
 
     @Test
     fun findByPageable() {
-        val sort1: Sort = Sort.by(User_.FIRST_NAME).descending()
-            .and(Sort.by(User_.LAST_NAME))
+        val sort1: Sort = Sort.by(QUser.user.firstName.metadata.name).descending()
+            .and(Sort.by(QUser.user.lastName.metadata.name))
         val pageable1 = PageRequest.of(1, 2, sort1)
 
         val users1 = userRepository.findBy(pageable1)
@@ -139,8 +139,8 @@ class UserRepositoryIT(
 
     @Test
     fun findWithNamedGraphBy() {
-        val sort: Sort = Sort.by(User_.FIRST_NAME).descending()
-            .and(Sort.by(User_.LAST_NAME))
+        val sort: Sort = Sort.by("firstName").descending()
+            .and(Sort.by("lastName"))
         val pageable = PageRequest.of(0, 2, sort)
 
         val users = userRepository.findWithNamedGraphBy(pageable)
@@ -154,8 +154,8 @@ class UserRepositoryIT(
 
     @Test
     fun findWithAttrGraphBy() {
-        val sort: Sort = Sort.by(User_.FIRST_NAME).descending()
-            .and(Sort.by(User_.LAST_NAME))
+        val sort: Sort = Sort.by("firstName").descending()
+            .and(Sort.by("lastName"))
         val pageable = PageRequest.of(0, 2, sort)
 
         val users = userRepository.findWithAttrGraphBy(pageable)

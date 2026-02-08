@@ -26,16 +26,15 @@ dependencies {
 
     implementation 'org.springframework.data:spring-data-envers'
 
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // tool for roll out and update database schema
     implementation 'org.springframework.boot:spring-boot-starter-liquibase'
 
-//    implementation 'com.querydsl:querydsl-jpa'
-//    kapt 'com.querydsl:querydsl-apt'
+    // instead of org.hibernate:hibernate-jpamodelgen better use querydsl
     implementation 'io.github.openfeign.querydsl:querydsl-jpa:7.1'
     kapt 'io.github.openfeign.querydsl:querydsl-apt:7.1:jakarta'
     kapt 'io.github.openfeign.querydsl:querydsl-kotlin-codegen:7.1'
-
-
-    kapt 'org.hibernate:hibernate-jpamodelgen:7.1.11.Final'
 
     // kotlin reflection
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
