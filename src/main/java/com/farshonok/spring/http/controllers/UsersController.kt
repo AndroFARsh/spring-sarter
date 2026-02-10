@@ -35,7 +35,7 @@ class UsersController(
 
     // Create new user
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+//    @ResponseStatus(HttpStatus.CREATED)
     fun create(createUser: UserCreateEditDto) : String {
         return "redirect:/users/${userService.create(createUser).id}"
     }
