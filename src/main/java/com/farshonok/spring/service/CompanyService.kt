@@ -20,7 +20,7 @@ class CompanyService(
         return companyRepository.findById(id)
             .map { entity ->
                 eventPublisher.publishEvent(EntityEvent(AccessType.READ, entity))
-                CompanyReadDto(id)
+                CompanyReadDto(id, entity.name)
             }
     }
 

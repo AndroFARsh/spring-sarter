@@ -28,7 +28,7 @@ enum class Role {
 @NamedEntityGraph(name = "User.company", graph = "company")
 @Entity
 @Table(name = "users")
-class User(
+data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override val id: Int = 0,
@@ -51,8 +51,12 @@ class User(
     var company: Company? = null
 
     @NotAudited
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval=true)
     var userChats: MutableList<UserChat> = mutableListOf()
+
+    @NotAudited
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", orphanRemoval=true)
+    var payments: MutableList<Payment> = mutableListOf()
 }
 
 interface UserSearch {
