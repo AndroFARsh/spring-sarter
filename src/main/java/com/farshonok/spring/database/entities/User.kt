@@ -28,19 +28,17 @@ enum class Role {
 @NamedEntityGraph(name = "User.company", graph = "company")
 @Entity
 @Table(name = "users")
-data class User(
+class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override val id: Int = 0,
 
     @Column(name = "username", nullable = false, unique = true)
     override var email: String,
-
     @Column(name = "firstname")
     override var firstName: String,
     @Column(name = "lastname")
     override var lastName: String,
-
     @Column(name = "birth_date")
     override var birthDate: LocalDate?,
     @Enumerated(EnumType.STRING)

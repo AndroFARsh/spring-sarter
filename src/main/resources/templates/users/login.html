@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -7,10 +7,10 @@
 <body>
 <form method="post">
     <label title="Email">
-        <input name="username" type="text" value="${sessionScope.credentials.username}">
+        <input name="username" type="text">
     </label><br/>
     <label title="Password">
-        <input name="password" type="password" value="${sessionScope.credentials.password}">
+        <input name="password" type="password">
     </label><br/>
     <button type="submit">Log in</button>
 </form>

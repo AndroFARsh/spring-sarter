@@ -9,5 +9,6 @@ class UserCreateEditDto(
     val lastName: String,
     val birthDate: LocalDate,
     val role: Role = Role.USER,
+    val companyId: Int,
 )
 

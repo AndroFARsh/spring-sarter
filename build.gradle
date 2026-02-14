@@ -29,6 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 
+    // tool for dynamic page creation instead jsp
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
     // tool for roll out and update database schema
     implementation 'org.springframework.boot:spring-boot-starter-liquibase'
 

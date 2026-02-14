@@ -19,7 +19,7 @@ class LoginController {
         model: Model,
         credentials: CredentialsDto
     ): String {
-        //return "forward:/WEB-INF/jsp/users/login.jsp"
+        //return "forward:/WEB-INF/jsp/users/login.html"
         model.addAttribute("credentials", credentials)
         return "redirect:/login"
 //        return "users/login"

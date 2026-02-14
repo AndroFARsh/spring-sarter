@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn
 import jakarta.persistence.MapKeyColumn
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-//import org.hibernate.annotations.NamedQuery
 import jakarta.persistence.NamedQuery
 
 @NamedQuery(
@@ -21,14 +20,14 @@ import jakarta.persistence.NamedQuery
 )
 @Entity
 @Table(name = "company")
-data class Company(
-    @Column(nullable = false, unique = true)
-    var name: String,
-) : BaseEntity<Int> {
+class Company(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override var id: Int = 0
+    override val id: Int = 0,
 
+    @Column(nullable = false, unique = true)
+    var name: String
+) : BaseEntity<Int> {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "company_locales", joinColumns = [JoinColumn(name = "company_id")])
     @MapKeyColumn(name = "lang")

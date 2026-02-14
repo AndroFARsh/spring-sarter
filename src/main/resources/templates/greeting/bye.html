@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bye</title>
+</head>
+<body>
+    <p>Bye <span th:text="${session.user.firstName}">Name</span></p>
+    <p th:text="|Bye ${session.user.firstName}!|">Bye user</p>
+</body>
+</html>

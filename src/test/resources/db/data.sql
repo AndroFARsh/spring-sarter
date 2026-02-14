@@ -1,3 +1,7 @@
+
+-- DROP SCHEMA public CASCADE;
+-- CREATE SCHEMA public;
+
 INSERT INTO company (id, name)
 VALUES (1,'Google'),
        (2,'Meta'),

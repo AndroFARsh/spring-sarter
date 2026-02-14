@@ -37,7 +37,11 @@ class UserService(
     fun update(id: Int, user: UserCreateEditDto): Optional<UserReadDto> =
         userRepository.findById(id)
             .map { entity -> userCreateMapper.map(user, entity) }
-            .map(userRepository::saveAndFlush)
+            .map {
+
+                userRepository.saveAndFlush(it)
+
+            }
             .map(userReadMapper::map)
 
     @Transactional

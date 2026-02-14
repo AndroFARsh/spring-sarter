@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+
+    <form th:action="@{/users/{userId}/update(userId=${user.id})}" method="post" th:object="${user}">
+        <label title="Email">
+            <input id="email" name="email" type="email" th:value="${user.email}">
+        </label><br/>
+        <label title="Name">
+            <input id="firstName" name="firstName" type="text" th:value="*{firstName}">
+        </label><br/>
+        <label title="Lastname">
+            <input id="lastName" name="lastName" type="text" th:value="*{lastName}">
+        </label><br/>
+        <label title="Birth Date">
+            <input id="birthDate" name="birthDate" type="date" th:value="*{birthDate}">
+        </label><br/>
+        <label title="Role">
+            <select id="role" name="role" th:field="*{role}">
+                <option th:each="r : ${roles}"
+                        th:value="${r}" th:text="${r}">ROLE</option>
+            </select>
+        </label><br/>
+        <label title="Company">
+            <select id="companyId" name="companyId">
+                <option th:value="0"
+                        th:text="None"
+                        th:selected="${null == user.company}">Nonr</option>
+                <option th:each="c : ${companies}"
+                        th:value="${c.id}"
+                        th:text="${c.name}"
+                        th:selected="${user.company != null && c.id == user.company.id}">GOOGLE</option>
+            </select>
+        </label><br/>
+        <button type="submit">Update</button>
+    </form>
+
+</body>
+</html>
