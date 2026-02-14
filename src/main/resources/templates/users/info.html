@@ -19,12 +19,14 @@
         <label title="Birth Date">
             <input id="birthDate" name="birthDate" type="date" th:value="*{birthDate}">
         </label><br/>
-        <label title="Role">
-            <select id="role" name="role" th:field="*{role}">
-                <option th:each="r : ${roles}"
-                        th:value="${r}" th:text="${r}">ROLE</option>
-            </select>
-        </label><br/>
+        <div th:each="role : ${roles}">
+            <input type="radio"
+                   name="role"
+                   th:id="${role}"
+                   th:value="${role}"
+                   th:checked="${role == user.role}" />
+            <label th:for="${role}" th:text="${role}">Role name</label>
+        </div>
         <label title="Company">
             <select id="companyId" name="companyId">
                 <option th:value="0"
@@ -38,6 +40,8 @@
         </label><br/>
         <button type="submit">Update</button>
     </form>
-
+    <form th:action="@{/users/{userId}/delete(userId=${user.id})}" th:if="${user.role.name == 'ADMIN'}" method="post">
+        <button type="submit">Remove</button>
+    </form>
 </body>
 </html>

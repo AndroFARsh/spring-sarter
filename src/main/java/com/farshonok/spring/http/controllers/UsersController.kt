@@ -24,7 +24,7 @@ class UsersController(
     @GetMapping
     fun findAll(model: Model) : String {
         val users = userService.findAll()
-        model.addAttribute("users", users)
+        model.addAttribute("users", users.sortedBy { it.id })
         return "users/list"
     }
 
