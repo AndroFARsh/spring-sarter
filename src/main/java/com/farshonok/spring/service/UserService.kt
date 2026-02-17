@@ -2,6 +2,7 @@ package com.farshonok.spring.service
 
 import com.farshonok.spring.database.repository.UserRepository
 import com.farshonok.spring.dto.UserCreateEditDto
+import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.dto.UserReadDto
 import com.farshonok.spring.mappers.UserCreateEditMapper
 import com.farshonok.spring.mappers.UserReadMapper
@@ -17,6 +18,10 @@ class UserService(
     private val userReadMapper: UserReadMapper,
     private val userCreateMapper: UserCreateEditMapper,
 ) {
+    fun findAll(filter: UserFilter): List<UserReadDto> =
+        userRepository.findAllByFilterQueryDSL(filter)
+            .map(userReadMapper::map)
+
     fun findAll(): List<UserReadDto> =
         userRepository.findAll()
             .map(userReadMapper::map)

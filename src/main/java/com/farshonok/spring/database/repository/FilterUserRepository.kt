@@ -27,7 +27,7 @@ class FilterUserRepositoryImpl(
 
         val predicates = mutableListOf<Predicate>()
 
-        filter.firsName?.let {
+        filter.firstName?.let {
             predicates.add(cb.like(user.get("firstName"), it))
         }
 
@@ -48,7 +48,7 @@ class FilterUserRepositoryImpl(
 
     override fun findAllByFilterQueryDSL(filter: UserFilter): List<User> {
         val predicate = QPredicates.builder()
-            .add(filter.firsName, user.firstName::containsIgnoreCase)
+            .add(filter.firstName, user.firstName::containsIgnoreCase)
             .add(filter.lastName, user.lastName::containsIgnoreCase)
             .add(filter.birthDate, user.birthDate::eq)
             .build()

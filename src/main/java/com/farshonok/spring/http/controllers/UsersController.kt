@@ -2,6 +2,7 @@ package com.farshonok.spring.http.controllers
 
 import com.farshonok.spring.database.entities.Role
 import com.farshonok.spring.dto.UserCreateEditDto
+import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.CompanyService
 import com.farshonok.spring.service.UserService
 import org.springframework.http.HttpStatus
@@ -24,8 +25,9 @@ class UsersController(
 
     // Create read all user
     @GetMapping
-    fun findAll(model: Model) : String {
-        val users = userService.findAll()
+    fun findAll(model: Model, filter: UserFilter) : String {
+        val users = userService.findAll(filter)
+        model.addAttribute("filter", filter)
         model.addAttribute("users", users.sortedBy { it.id })
         return "users/list"
     }

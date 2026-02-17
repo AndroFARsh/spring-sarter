@@ -2,7 +2,9 @@ package com.farshonok.spring.service
 
 import com.farshonok.spring.database.entities.Company
 import com.farshonok.spring.database.repository.CompanyRepository
+import com.farshonok.spring.dto.CompanyReadDto
 import com.farshonok.spring.events.EntityEvent
+import com.farshonok.spring.mappers.CompanyReadMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -20,6 +22,8 @@ import java.util.*
 class CompanyServiceMockitoTest {
 
     @Mock
+    lateinit var companyReadMapper: CompanyReadMapper
+    @Mock
     lateinit var companyRepository: CompanyRepository
     @Mock
     lateinit var userService: UserService
@@ -30,10 +34,14 @@ class CompanyServiceMockitoTest {
 
     @Test
     fun findById() {
-        doReturn(Optional.of(Company("").apply { id = COMPANY_ID }))
+        val company = Company(id = COMPANY_ID, name = "Test company")
+        doReturn(Optional.of(company))
             .`when`(companyRepository).findById(COMPANY_ID)
 
-        val dto = companyService.findById(1)
+        doReturn(CompanyReadDto( id = COMPANY_ID,"Test company"))
+            .`when`(companyReadMapper).map(company)
+
+        val dto = companyService.findById(COMPANY_ID)
         assertTrue(dto.isPresent)
         assertEquals(COMPANY_ID, dto.get().id)
 
