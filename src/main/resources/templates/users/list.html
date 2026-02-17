@@ -8,5 +8,8 @@
     <div th:each="user : ${users}">
         <a th:href="@{'/users/'+ ${user.id}}" th:text="|${user.id}. ${user.firstName}  ${user.lastName} - ${user.email}|">User</a>
     </div>
+    <form action="/users/signup">
+        <button type="submit">Create User</button>
+    </form>
 </body>
 </html>

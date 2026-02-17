@@ -13,21 +13,21 @@ class UserCreateEditMapper(
 
     override fun map(from: UserCreateEditDto, to: User) : User {
         return to.apply {
-            email = from.email
-            firstName = from.firstName
-            lastName = from.lastName
-            birthDate = from.birthDate
-            role = from.role
+            email = from.email ?: email
+            firstName = from.firstName ?: firstName
+            lastName = from.lastName ?: lastName
+            birthDate = from.birthDate ?: birthDate
+            role = from.role ?: role
             company = companyRepository.findById(from.companyId).getOrNull()
         }
     }
 
     override fun map(from: UserCreateEditDto) = User(
-        email = from.email,
-        firstName = from.firstName,
-        lastName = from.lastName,
+        email = from.email!!,
+        firstName = from.firstName!!,
+        lastName = from.lastName!!,
         birthDate = from.birthDate,
-        role = from.role,
+        role = from.role!!,
     ).apply {
         company = companyRepository.findById(from.companyId).getOrNull()
     }

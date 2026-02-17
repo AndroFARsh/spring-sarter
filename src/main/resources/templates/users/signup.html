@@ -2,16 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User</title>
+    <title>Create User</title>
 </head>
 <body>
 
-    <form th:action="@{/users/{userId}/update(userId=${user.id})}" method="post" th:object="${user}">
+    <form action="/users" method="post" th:object="${user}">
         <label title="Email">
-            <input id="email" name="email" type="email" th:value="${user.email}">
+            <input id="email" name="email" type="email" th:value="*{email}">
         </label><br/>
         <label title="Name">
-            <input id="firstName" name="firstName" type="text" th:value="*{firstName}">
+            <input id="firstName" name="firstName" type="text"  th:value="*{firstName}">
         </label><br/>
         <label title="Lastname">
             <input id="lastName" name="lastName" type="text" th:value="*{lastName}">
@@ -31,17 +31,14 @@
             <select id="companyId" name="companyId">
                 <option th:value="0"
                         th:text="None"
-                        th:selected="${null == user.company}">None</option>
+                        th:selected="${null == user.companyId || 0 == user.companyId}">None</option>
                 <option th:each="c : ${companies}"
                         th:value="${c.id}"
                         th:text="${c.name}"
-                        th:selected="${user.company != null && c.id == user.company.id}">GOOGLE</option>
+                        th:selected="${user.companyId != null && c.id == user.companyId}">Company</option>
             </select>
         </label><br/>
-        <button type="submit">Update</button>
-    </form>
-    <form th:action="@{/users/{userId}/delete(userId=${user.id})}" th:if="${user.role.name == 'ADMIN'}" method="post">
-        <button type="submit">Remove</button>
+        <button type="submit">Create</button>
     </form>
 </body>
 </html>
