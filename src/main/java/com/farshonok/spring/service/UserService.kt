@@ -1,11 +1,15 @@
 package com.farshonok.spring.service
 
+import com.farshonok.spring.database.entities.QUser.Companion.user
+import com.farshonok.spring.database.querydsl.QPredicates
 import com.farshonok.spring.database.repository.UserRepository
 import com.farshonok.spring.dto.UserCreateEditDto
 import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.dto.UserReadDto
 import com.farshonok.spring.mappers.UserCreateEditMapper
 import com.farshonok.spring.mappers.UserReadMapper
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.Optional
@@ -18,9 +22,15 @@ class UserService(
     private val userReadMapper: UserReadMapper,
     private val userCreateMapper: UserCreateEditMapper,
 ) {
-    fun findAll(filter: UserFilter): List<UserReadDto> =
-        userRepository.findAllByFilterQueryDSL(filter)
-            .map(userReadMapper::map)
+    fun findAll(filter: UserFilter, pageable: Pageable): Page<UserReadDto> =
+        userRepository.findAll(
+            QPredicates.builder()
+                .add(filter.firstName, user.firstName::containsIgnoreCase)
+                .add(filter.lastName, user.lastName::containsIgnoreCase)
+                .add(filter.birthDate, user.birthDate::eq)
+                .build(),
+            pageable
+        ).map(userReadMapper::map)
 
     fun findAll(): List<UserReadDto> =
         userRepository.findAll()

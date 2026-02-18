@@ -6,19 +6,29 @@
 </head>
 <body>
 <form action="/users">
-    <label title="Name">
-        <input id="firstName" name="firstName" type="text" th:value="${filter.firstName}">
-    </label><br/>
-    <label title="Lastname">
-        <input id="lastName" name="lastName" type="text" th:value="${filter.lastName}">
-    </label><br/>
-    <label title="Birth Date">
-        <input id="birthDate" name="birthDate" type="date" th:value="${filter.birthDate}">
-    </label><br/>
+    <div>
+        <label title="Name">Name:
+            <input id="firstName" name="firstName" type="text" th:value="${filter.firstName}">
+        </label>
+        <label title="Lastname">Lastname:
+            <input id="lastName" name="lastName" type="text" th:value="${filter.lastName}">
+        </label>
+        <label title="Birth Date">Birth Date:
+            <input id="birthDate" name="birthDate" type="date" th:value="${filter.birthDate}">
+        </label>
+    </div>
+    <div>
+        <label title="Page">Page:
+            <input id="page" name="page" type="text" th:value="${users.metadata.page}">
+        </label>
+        <label title="Size">Size:
+            <input id="size" name="size" type="text" th:value="${users.metadata.size}">
+        </label>
+    </div>
     <button type="submit">Filter</button>
     </form><br/>
 
-    <div th:each="user : ${users}">
+    <div th:each="user : ${users.content}">
         <a th:href="@{'/users/'+ ${user.id}}" th:text="|${user.id}. ${user.firstName}  ${user.lastName} - ${user.email}|">User</a>
     </div><br/>
 

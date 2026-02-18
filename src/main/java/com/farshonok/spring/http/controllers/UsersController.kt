@@ -1,10 +1,12 @@
 package com.farshonok.spring.http.controllers
 
 import com.farshonok.spring.database.entities.Role
+import com.farshonok.spring.dto.PageResponse
 import com.farshonok.spring.dto.UserCreateEditDto
 import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.CompanyService
 import com.farshonok.spring.service.UserService
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -25,10 +27,10 @@ class UsersController(
 
     // Create read all user
     @GetMapping
-    fun findAll(model: Model, filter: UserFilter) : String {
-        val users = userService.findAll(filter)
+    fun findAll(model: Model, filter: UserFilter, pageable: Pageable) : String {
+        val page = userService.findAll(filter, pageable)
         model.addAttribute("filter", filter)
-        model.addAttribute("users", users.sortedBy { it.id })
+        model.addAttribute("users", PageResponse.of(page))
         return "users/list"
     }
 
