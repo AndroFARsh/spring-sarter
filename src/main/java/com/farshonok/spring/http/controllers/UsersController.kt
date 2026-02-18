@@ -8,7 +8,6 @@ import com.farshonok.spring.service.CompanyService
 import com.farshonok.spring.service.UserService
 import com.farshonok.spring.validators.UserCreateAction
 import com.farshonok.spring.validators.UserUpdateAction
-import jakarta.validation.Valid
 import jakarta.validation.groups.Default
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -28,8 +27,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes
 @RequestMapping("/users")
 class UsersController(
     private val userService: UserService,
-    private val companyService: CompanyService
+    private val companyService: CompanyService,
 ) {
+
+//    private val log: Logger = LoggerFactory.getLogger(this::class.java)
+//
+//    @ExceptionHandler(Exception::class)
+//    fun handleException(ex: Exception, model: Model) : String {
+//        log.error("Exception occurred", ex)
+//        return "errors/generic"
+//    }
 
     // Create read all user
     @GetMapping
@@ -106,3 +113,4 @@ class UsersController(
         return "redirect:/users"
     }
 }
+
