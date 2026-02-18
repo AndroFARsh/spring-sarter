@@ -6,7 +6,10 @@ import com.farshonok.spring.dto.UserCreateEditDto
 import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.CompanyService
 import com.farshonok.spring.service.UserService
+import com.farshonok.spring.validators.UserCreateAction
+import com.farshonok.spring.validators.UserUpdateAction
 import jakarta.validation.Valid
+import jakarta.validation.groups.Default
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
@@ -62,7 +65,7 @@ class UsersController(
 //    @ResponseStatus(HttpStatus.CREATED)
     fun create(
         model: Model,
-        @ModelAttribute @Valid user: UserCreateEditDto,
+        @ModelAttribute @Validated(Default::class, UserCreateAction::class) user: UserCreateEditDto,
         bindingResult: BindingResult,
         redirectAttributes: RedirectAttributes
     ) : String {
@@ -79,7 +82,10 @@ class UsersController(
     // @PutMapping("/{id}")
     // html form doesn't support put method so use Post for now
     @PostMapping("/{id}/update")
-    fun update(@PathVariable id: Int, @ModelAttribute @Valid user: UserCreateEditDto) : String {
+    fun update(
+        @PathVariable id: Int,
+        @ModelAttribute @Validated(Default::class, UserUpdateAction::class) user: UserCreateEditDto
+    ) : String {
         return userService.update(id, user)
             .map {
                 "redirect:/users/${id}"

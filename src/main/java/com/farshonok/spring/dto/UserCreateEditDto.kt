@@ -1,14 +1,18 @@
 package com.farshonok.spring.dto
 
 import com.farshonok.spring.database.entities.Role
+import com.farshonok.spring.validators.UserCreateAction
+import com.farshonok.spring.validators.UserInfo
+import com.farshonok.spring.validators.UserUpdateAction
 import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
 import jakarta.validation.constraints.Size
 import java.time.LocalDate
 
+//@UserInfo(groups = [UserUpdateAction::class])
+@UserInfo(groups = [UserCreateAction::class])
 class UserCreateEditDto(
     // validation should be explicitly defined on the getter, otherwise it will not work for some reason
     @get:Email
