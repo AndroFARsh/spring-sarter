@@ -31,6 +31,8 @@ dependencies {
 
     // tool for dynamic page creation instead jsp
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // tool for validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // tool for roll out and update database schema
     implementation 'org.springframework.boot:spring-boot-starter-liquibase'

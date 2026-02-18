@@ -6,10 +6,13 @@ import com.farshonok.spring.dto.UserCreateEditDto
 import com.farshonok.spring.dto.UserFilter
 import com.farshonok.spring.service.CompanyService
 import com.farshonok.spring.service.UserService
+import jakarta.validation.Valid
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.validation.BindingResult
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
@@ -57,27 +60,26 @@ class UsersController(
     // Create new user
     @PostMapping
 //    @ResponseStatus(HttpStatus.CREATED)
-    fun create(createUser: UserCreateEditDto, redirectAttributes: RedirectAttributes) : String {
-        return if (!createUser.validate()) {
-            redirectAttributes.addFlashAttribute("user", createUser)
+    fun create(
+        model: Model,
+        @ModelAttribute @Valid user: UserCreateEditDto,
+        bindingResult: BindingResult,
+        redirectAttributes: RedirectAttributes
+    ) : String {
+        return if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("errors", bindingResult.allErrors)
+            redirectAttributes.addFlashAttribute("user", user)
             "redirect:/users/signup"
         } else {
-            "redirect:/users/${userService.create(createUser).id}"
+            "redirect:/users/${userService.create(user).id}"
         }
-    }
-
-    private fun UserCreateEditDto.validate() : Boolean {
-        return email != null &&
-               firstName != null &&
-               lastName != null &&
-               role != null
     }
 
     // Update user
     // @PutMapping("/{id}")
     // html form doesn't support put method so use Post for now
     @PostMapping("/{id}/update")
-    fun update(@PathVariable id: Int, user: UserCreateEditDto) : String {
+    fun update(@PathVariable id: Int, @ModelAttribute @Valid user: UserCreateEditDto) : String {
         return userService.update(id, user)
             .map {
                 "redirect:/users/${id}"
