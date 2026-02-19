@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 import java.util.Optional
 import kotlin.collections.map
 
@@ -21,6 +22,7 @@ class UserService(
     private val userRepository: UserRepository,
     private val userReadMapper: UserReadMapper,
     private val userCreateMapper: UserCreateEditMapper,
+    private val imageService: ImageService,
 ) {
     fun findAll(filter: UserFilter, pageable: Pageable): Page<UserReadDto> =
         userRepository.findAll(
@@ -43,7 +45,10 @@ class UserService(
     @Transactional
     fun create(user: UserCreateEditDto): UserReadDto =
         Optional.of(user)
-            .map(userCreateMapper::map)
+            .map{ dto ->
+                dto.image.ifPresent { uploadImage(it) }
+                userCreateMapper.map(dto)
+            }
             .map(userRepository::save)
             .map(userReadMapper::map)
             .orElseThrow()
@@ -51,11 +56,12 @@ class UserService(
     @Transactional
     fun update(id: Int, user: UserCreateEditDto): Optional<UserReadDto> =
         userRepository.findById(id)
-            .map { entity -> userCreateMapper.map(user, entity) }
+            .map { entity ->
+                user.image.ifPresent { uploadImage(it) }
+                userCreateMapper.map(user, entity)
+            }
             .map {
-
                 userRepository.saveAndFlush(it)
-
             }
             .map(userReadMapper::map)
 
@@ -68,5 +74,10 @@ class UserService(
                 true
             }.orElse(false)
 
+    fun uploadImage(image: MultipartFile) {
+        if (!image.isEmpty) {
+            imageService.upload(image.originalFilename ?: return, image.inputStream)
+        }
+    }
 }
 

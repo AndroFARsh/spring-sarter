@@ -7,3 +7,5 @@ databaseChangeLog:
       file: classpath:/db/changelog/changelog-2.1.sql
   - include:
       file: classpath:/db/changelog/changelog-2.2.sql
+  - include:
+      file: classpath:/db/changelog/changelog-3.0.sql

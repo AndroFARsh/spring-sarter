@@ -52,6 +52,9 @@ class User(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval=true)
     var userChats: MutableList<UserChat> = mutableListOf()
 
+    @Column(name = "image")
+    var image: String? = null
+
     @NotAudited
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", orphanRemoval=true)
     var payments: MutableList<Payment> = mutableListOf()

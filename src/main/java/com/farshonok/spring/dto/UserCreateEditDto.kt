@@ -9,7 +9,10 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
 import jakarta.validation.constraints.Size
+import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
+import java.util.Optional
+import java.util.Optional.empty
 
 //@UserInfo(groups = [UserUpdateAction::class])
 @UserInfo(groups = [UserCreateAction::class])
@@ -30,10 +33,12 @@ class UserCreateEditDto(
 //    @PastOrPresent
     val birthDate: LocalDate?,
 
-    @get:NotNull
+//    @get:NotNull
     val role: Role?,
 
     @get:PositiveOrZero
     val companyId: Int = 0,
+
+    val image: Optional<MultipartFile> = empty(),
 )
 
