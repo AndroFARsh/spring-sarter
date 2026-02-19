@@ -34,6 +34,12 @@ dependencies {
     // tool for validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // tool for generating REST api doc, test page
+    // use http://localhost:8080/v3/api-docs to generate JSON doc
+    // use http://localhost:8080/swagger-ui/index.html for web test page
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
+
+
     // tool for roll out and update database schema
     implementation 'org.springframework.boot:spring-boot-starter-liquibase'
 
