@@ -10,5 +10,6 @@ class UserReadDto(
     val lastName: String,
     val birthDate: LocalDate?,
     val role: Role,
-    val company: CompanyReadDto?
+    val company: CompanyReadDto?,
+    val image: String?,
 )

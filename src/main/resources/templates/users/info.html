@@ -22,6 +22,10 @@
         <label title="Avatar">Avatar:
             <input id="image" name="image" type="file">
         </label><br/>
+        <div th:if="${user.image != null}" >
+            <span th:text="@{/image/{imageName}(imageName=${user.image})}">Text</span><br/>
+            <img th:src="@{/image/{imageName}(imageName=${user.image})}" alt="Avatar">
+        </div>
         <div th:each="role : ${roles}">
             <input type="radio"
                    name="role"

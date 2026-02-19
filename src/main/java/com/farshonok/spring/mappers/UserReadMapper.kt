@@ -19,7 +19,8 @@ class UserReadMapper(
             lastName = from.lastName,
             birthDate = from.birthDate,
             role = from.role,
-            company = from.company?.let(companyReadMapper::map)
+            company = from.company?.let(companyReadMapper::map),
+            image = from.image
         )
     }
 }
