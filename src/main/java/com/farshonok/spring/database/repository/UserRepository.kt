@@ -54,6 +54,7 @@ interface UserRepository :
 
     fun findTopBy(sort: Sort): Optional<User>
 
+    fun findByEmail(username: String): Optional<User>
 
     // We can override page count query with @Query annotation
     @Query(

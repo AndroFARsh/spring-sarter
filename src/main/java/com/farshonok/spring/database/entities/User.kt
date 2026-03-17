@@ -16,12 +16,15 @@ import org.hibernate.annotations.NamedEntityGraph
 import org.hibernate.envers.Audited
 import org.hibernate.envers.NotAudited
 import org.hibernate.envers.RelationTargetAuditMode
+import org.springframework.security.core.GrantedAuthority
 import java.time.LocalDate
 
-enum class Role {
+enum class Role : GrantedAuthority{
     ADMIN,
     USER,
-    GUEST
+    GUEST;
+
+    override fun getAuthority() = name
 }
 
 @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
@@ -35,6 +38,8 @@ class User(
 
     @Column(name = "username", nullable = false, unique = true)
     override var email: String,
+    @Column(name = "password", nullable = false)
+    override var password: String,
     @Column(name = "firstname")
     override var firstName: String,
     @Column(name = "lastname")
@@ -62,6 +67,7 @@ class User(
 
 interface UserSearch {
     val email: String
+    val password: String
     val firstName: String
     val lastName: String
     val birthDate: LocalDate?

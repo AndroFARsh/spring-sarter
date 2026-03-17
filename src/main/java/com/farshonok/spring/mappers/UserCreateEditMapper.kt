@@ -31,6 +31,7 @@ class UserCreateEditMapper(
 
     override fun map(from: UserCreateEditDto) = User(
         email = from.email!!,
+        password = from.password!!,
         firstName = from.firstName!!,
         lastName = from.lastName!!,
         birthDate = from.birthDate,

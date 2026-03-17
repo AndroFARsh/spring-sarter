@@ -23,6 +23,9 @@ class UserCreateEditDto(
     val email: String?,
 
     @get:NotBlank
+    val password: String?,
+
+    @get:NotBlank
     @get:Size(min = 3, max = 64)
     val firstName: String?,
 
