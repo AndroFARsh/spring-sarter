@@ -1,6 +1,7 @@
 package com.farshonok.spring.service
 
 import com.farshonok.spring.database.entities.QUser.Companion.user
+import com.farshonok.spring.database.entities.User
 import com.farshonok.spring.database.querydsl.QPredicates
 import com.farshonok.spring.database.repository.UserRepository
 import com.farshonok.spring.dto.UserCreateEditDto
@@ -10,6 +11,8 @@ import com.farshonok.spring.mappers.UserCreateEditMapper
 import com.farshonok.spring.mappers.UserReadMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.security.access.expression.SecurityExpressionOperations
+import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -38,6 +41,10 @@ class UserService(
         userRepository.findAll()
             .map(userReadMapper::map)
 
+    @PostAuthorize("""
+       hasAuthority('ADMIN') or
+        (returnObject.isPresent() and returnObject.get().email == authentication.name)
+    """)
     fun findById(id: Int): Optional<UserReadDto> =
         userRepository.findById(id)
             .map(userReadMapper::map)

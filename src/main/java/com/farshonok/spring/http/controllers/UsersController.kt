@@ -11,6 +11,9 @@ import com.farshonok.spring.validators.UserUpdateAction
 import jakarta.validation.groups.Default
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
+import org.springframework.security.access.expression.SecurityExpressionOperations
+import org.springframework.security.access.prepost.PostAuthorize
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -48,6 +51,7 @@ class UsersController(
     }
 
     @GetMapping("/{id}")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     fun findById(@PathVariable id: Int, model: Model) : String =
         userService.findById(id)
             .map {
@@ -57,6 +61,7 @@ class UsersController(
                 "users/info"
             }
             .orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "User not found") }
+
 
 
     @GetMapping("/signup")
