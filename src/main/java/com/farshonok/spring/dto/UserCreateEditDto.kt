@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.PositiveOrZero
 import jakarta.validation.constraints.Size
+import org.postgresql.util.LruCache
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
 import java.util.Optional
@@ -22,8 +23,8 @@ class UserCreateEditDto(
     @get:NotBlank
     val email: String?,
 
-    @get:NotBlank
-    val password: String?,
+    @get:NotBlank(groups = [UserCreateAction::class])
+    val rawPassword: String?,
 
     @get:NotBlank
     @get:Size(min = 3, max = 64)

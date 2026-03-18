@@ -81,7 +81,8 @@ class UsersController(
             redirectAttributes.addFlashAttribute("user", user)
             "redirect:/users/signup"
         } else {
-            "redirect:/users/${userService.create(user).id}"
+            userService.create(user)
+            "redirect:/login"
         }
     }
 

@@ -7,16 +7,19 @@
 <body>
 
     <form action="/users" method="post" enctype="multipart/form-data" th:object="${user}">
-        <label title="Email">
+        <label title="Email">Email:
             <input id="email" name="email" type="email" th:value="*{email}">
         </label><br/>
-        <label title="Name">
+        <label title="Password">Password:
+            <input id="rawPassword" name="rawPassword" type="password">
+        </label><br/>
+        <label title="Name">Name:
             <input id="firstName" name="firstName" type="text"  th:value="*{firstName}">
         </label><br/>
-        <label title="Lastname">
+        <label title="Lastname">Lastname:
             <input id="lastName" name="lastName" type="text" th:value="*{lastName}">
         </label><br/>
-        <label title="Birth Date">
+        <label title="Birth Date">Birth Date:
             <input id="birthDate" name="birthDate" type="date" th:value="*{birthDate}">
         </label><br/>
         <label title="Avatar">Avatar:
@@ -30,7 +33,7 @@
                    th:checked="${role == user.role}" />
             <label th:for="${role}" th:text="${role}">Role name</label>
         </div>
-        <label title="Company">
+        <label title="Company">Company:
             <select id="companyId" name="companyId">
                 <option th:value="0"
                         th:text="None"
