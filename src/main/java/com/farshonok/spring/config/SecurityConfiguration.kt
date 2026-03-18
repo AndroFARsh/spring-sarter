@@ -33,6 +33,12 @@ class SecurityConfiguration {
                 .failureUrl("/login?error=true") // Redirect to /login?error=true on failure
                 .permitAll()
         }
+        .logout { logout ->
+            logout
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .deleteCookies("JSESSIONID")
+        }
         .build()
 
 
