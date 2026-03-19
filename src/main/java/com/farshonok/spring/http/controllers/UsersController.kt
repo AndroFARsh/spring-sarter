@@ -14,6 +14,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.access.expression.SecurityExpressionOperations
 import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.annotation.CurrentSecurityContext
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -52,7 +56,12 @@ class UsersController(
 
     @GetMapping("/{id}")
     //@PreAuthorize("hasAuthority('ADMIN')")
-    fun findById(@PathVariable id: Int, model: Model) : String =
+    fun findById(
+        @PathVariable id: Int,
+        model: Model,
+        @CurrentSecurityContext securityContext: SecurityContext,
+        @AuthenticationPrincipal principal: UserDetails?,
+    ) : String =
         userService.findById(id)
             .map {
                 model.addAttribute("user", it)

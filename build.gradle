@@ -33,6 +33,8 @@ dependencies {
 
     // tool for dynamic page creation instead jsp
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+
     // tool for validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
