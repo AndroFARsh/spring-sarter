@@ -21,6 +21,7 @@ import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertNull
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import org.springframework.security.test.context.support.WithMockUser
 import java.time.LocalDate
 
 class UserRepositoryIT(
@@ -212,9 +213,11 @@ class UserRepositoryIT(
     }
 
     @Test
+    @WithMockUser(username = "test@gmail.com", authorities = ["ADMIN"])
     fun user_audit_test() {
         val user = User(
             email = "anton@gmail.com",
+            password = "password",
             firstName = "Anton",
             lastName = "Krup",
             birthDate = LocalDate.now().minusYears(20),
@@ -226,7 +229,7 @@ class UserRepositoryIT(
         assertTrue { user.id > 0 }
         assertNotNull(user.createdAt)
         assertEquals(user.createdAt, user.modifiedAt)
-        assertEquals(user.createdBy, "farshonok")
+        assertEquals(user.createdBy, "test@gmail.com")
 
         user.role = ADMIN
 

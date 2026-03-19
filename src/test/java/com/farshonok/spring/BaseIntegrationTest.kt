@@ -2,6 +2,7 @@ package com.farshonok.spring
 
 import com.farshonok.spring.annotations.IT
 import org.junit.jupiter.api.BeforeAll
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.context.jdbc.Sql
@@ -11,6 +12,7 @@ import org.testcontainers.containers.PostgreSQLContainer
     "classpath:db/data.sql",
 ])
 @IT
+@WithMockUser(username = "test@gmail.com", password = "test", authorities = ["ADMIN"])
 abstract class BaseIntegrationTest {
 
     companion object {

@@ -34,6 +34,7 @@ class UserServiceIT(
     fun create() {
         val create = UserCreateEditDto(
             email = "test@test.com",
+            rawPassword = "password",
             firstName = "Test Name",
             lastName = "Test Lastname",
             birthDate = LocalDate.ofYearDay(1986, 1),
@@ -51,6 +52,7 @@ class UserServiceIT(
     fun update() {
         val update = UserCreateEditDto(
             email = "test@test.com",
+            rawPassword = "password",
             firstName = "Test Name",
             lastName = "Test Lastname",
             birthDate = LocalDate.ofYearDay(1986, 1),

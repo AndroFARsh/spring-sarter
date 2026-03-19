@@ -57,7 +57,9 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
+//    testImplementation 'org.springframework.boot:spring-boot-webmvc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
     testImplementation 'io.mockk:mockk:1.14.7'
     testImplementation 'org.testcontainers:postgresql:1.19.8'
 
