@@ -16,7 +16,7 @@ class SecurityConfiguration {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain = http
-        .csrf { it.disable() }
+//        .csrf { it.disable() }
         .authorizeHttpRequests { urlConfig ->
             urlConfig
                 // Allow access to public paths and custom login page

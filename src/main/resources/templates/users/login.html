@@ -5,8 +5,9 @@
     <title>Login</title>
 </head>
 <body>
-<form action="/login" method="post">
+<form th:action="@{/login}" method="post">
     <div style="color: red" th:if="${param.error}">User Not found</div>
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
     <label title="Email">
         <input name="username" type="text">
     </label><br/>

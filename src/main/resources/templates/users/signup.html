@@ -6,7 +6,7 @@
 </head>
 <body>
 
-    <form action="/users" method="post" enctype="multipart/form-data" th:object="${user}">
+    <form th:action="@{/users}" method="post" enctype="multipart/form-data" th:object="${user}">
         <label title="Email">Email:
             <input id="email" name="email" type="email" th:value="*{email}">
         </label><br/>
