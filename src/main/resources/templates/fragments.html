@@ -5,11 +5,27 @@
     <title>User</title>
 </head>
 <body>
-    <div th:fragment="header">
-        <span th:text="${#authentication.principal.username}">Username</span>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit">Logout</button>
-        </form>
-    </div>
+
+<div th:fragment="header">
+    <span th:text="${#authentication.principal.username}">Username</span>
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+    <div th:insert="~{fragments::locale}"></div>
+</div>
+
+<div th:fragment="locale">
+    <form action="">
+        <label>
+            Locale:
+            <select name="lang" onchange="this.form.submit()">
+                <option></option>
+                <option value="en">EN</option>
+                <option value="ua">UA</option>
+            </select>
+        </label>
+    </form>
+</div>
+
 </body>
 </html>

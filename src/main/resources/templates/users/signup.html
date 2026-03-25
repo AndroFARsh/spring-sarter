@@ -5,7 +5,7 @@
     <title>Create User</title>
 </head>
 <body>
-
+    <div th:insert="~{fragments::locale}"></div>
     <form th:action="@{/users}" method="post" enctype="multipart/form-data" th:object="${user}">
         <label title="Email">Email:
             <input id="email" name="email" type="email" th:value="*{email}">
