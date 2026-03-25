@@ -52,3 +52,13 @@ spring:
               - openid
               - email
               - profile
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ${GOOGLE_CLIENT_ID}
+      client-secret: ${GOOGLE_CLIENT_SECRET}
+      scopes:
+        - openid
+        - email
+        - profile
+    oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
