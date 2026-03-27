@@ -1,12 +1,17 @@
 package com.farshonok.spring.aop
 
+import com.querydsl.core.util.MathUtils.result
 import org.aspectj.lang.JoinPoint
+import org.aspectj.lang.annotation.After
+import org.aspectj.lang.annotation.AfterReturning
+import org.aspectj.lang.annotation.AfterThrowing
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.aspectj.lang.annotation.Pointcut
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import kotlin.contracts.Returns
 
 @Aspect
 @Component
@@ -71,9 +76,21 @@ class FirstAspect {
     @Pointcut("execution(public * com.farshonok.spring.service.*Service.findById(..))")
     fun anyFindByIdServiceMethod() { /*no-op*/ }
 
-    //
-    // Advices: Before, After, AfterReturning, AfterThrowing, Around
-    //
+    /**
+        Advices: Before, After, AfterReturning, AfterThrowing, Around
+
+        Lifecycle:
+        @Before
+        try {
+            method
+            @AfterReturning
+        } catch {
+            @AfterThrowing
+        } final {
+            @After
+        }
+    **/
+
 
     @Before("""anyFindByIdServiceMethod()
         && args(id)
@@ -87,6 +104,60 @@ class FirstAspect {
         service: Any,
         transactional: Transactional
     ) {
-        log.info("invoke findById method on cass={}, with id-{} [joinPoint={}]", service, id, joinPoint)
+        log.info("Before: - invoke findById method on class={}, with id={} [joinPoint={}]", service, id, joinPoint)
+    }
+
+    @AfterReturning(
+        value = """anyFindByIdServiceMethod()
+            && args(id)
+            && target(service)
+            && @within(transactional)
+        """,
+        returning = "result"
+    )
+    fun addLoggingAfterReturning(
+        joinPoint: JoinPoint, // may be skipped
+        result: Any,
+        id: Any,
+        service: Any,
+        transactional: Transactional
+
+    ) {
+        log.info("AfterReturn: invoke findById method on class={}, with id={} [result={}]", service, id, result)
+    }
+
+    @AfterThrowing(
+        value = """anyFindByIdServiceMethod()
+            && args(id)
+            && target(service)
+            && @within(transactional)
+        """,
+        throwing = "error"
+    )
+    fun addLoggingAfterThrowing(
+        error: Throwable,
+        id: Any,
+        service: Any,
+        transactional: Transactional
+
+    ) {
+        log.error("AfterThrowing: invoke findById method on class={}, with id={} [e={}]", service, id, error)
+    }
+
+    @After(
+        value = """anyFindByIdServiceMethod()
+            && args(id)
+            && target(service)
+            && @within(transactional)
+        """,
+    )
+    fun addLoggingAfterFinally(
+        joinPoint: JoinPoint,
+        id: Any,
+        service: Any,
+        transactional: Transactional
+
+    ) {
+        log.error("After: invoke findById method on class={}, with id={} [jp={}]", service, id, joinPoint)
     }
 }
