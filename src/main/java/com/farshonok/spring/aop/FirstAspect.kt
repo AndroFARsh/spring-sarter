@@ -2,9 +2,11 @@ package com.farshonok.spring.aop
 
 import com.querydsl.core.util.MathUtils.result
 import org.aspectj.lang.JoinPoint
+import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.After
 import org.aspectj.lang.annotation.AfterReturning
 import org.aspectj.lang.annotation.AfterThrowing
+import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.aspectj.lang.annotation.Pointcut
@@ -158,6 +160,30 @@ class FirstAspect {
         transactional: Transactional
 
     ) {
-        log.error("After: invoke findById method on class={}, with id={} [jp={}]", service, id, joinPoint)
+        log.info("After: invoke findById method on class={}, with id={} [jp={}]", service, id, joinPoint)
+    }
+
+    @Around(
+        value = """anyFindByIdServiceMethod()
+            && args(id)
+            && target(service)
+        """,
+    )
+    fun addLoggingAround(
+        joinPoint: ProceedingJoinPoint,
+        id: Any,
+        service: Any,
+    ): Any {
+        log.info("AROUND Before: - invoke findById method on class={}, with id={}", service, id)
+        try {
+            val result = joinPoint.proceed()
+            log.info("AROUND AfterReturn: invoke findById method on class={}, with id={} [result={}]", service, id, result)
+            return result
+        } catch (e: Throwable) {
+            log.error("AROUND AfterThrowing: invoke findById method on class={}, with id={} [e={}]", service, id, e)
+            throw e
+        } finally {
+            log.info("AROUND After: invoke findById method on class={}, with id={} [jp={}]", service, id, joinPoint)
+        }
     }
 }
