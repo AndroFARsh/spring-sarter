@@ -1,6 +1,5 @@
 package com.farshonok.spring.aop
 
-import com.querydsl.core.util.MathUtils.result
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.After
@@ -11,41 +10,22 @@ import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.aspectj.lang.annotation.Pointcut
 import org.slf4j.LoggerFactory
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import kotlin.contracts.Returns
 
 @Aspect
 @Component
+@Order(1)
 class FirstAspect {
 
     val log = LoggerFactory.getLogger(FirstAspect::class.java)
 
     /*
-        @within - check annotation on the class level
-     */
-    @Pointcut("@within(org.springframework.stereotype.Controller)")
-    fun isControllerLayer() { /*no-op*/ }
-
-
-    /*
-        within - check class type name
-     */
-    @Pointcut("within(com.farshonok.spring.service.*Service)")
-    fun isServiceLayer() { /*no-op*/ }
-
-    /*
-        this - check AOP proxy lass type
-        target - check target(concrete) object class type
-     */
-    @Pointcut("this(org.springframework.data.repository.support.Repositories)")
-    // @Pointcut("target(org.springframework.data.repository.support.Repositories)")
-    fun isRepositoryLayer() { /*no-op*/ }
-
-    /*
         @annotation - check annotation on method level
      */
-    @Pointcut("isControllerLayer() && @annotation(org.springframework.web.bind.annotation.GetMapping)")
+    @Pointcut("com.farshonok.spring.aop.CommonAspect.isControllerLayer() && @annotation(org.springframework.web.bind.annotation.GetMapping)")
     fun hasGetMapping() { /*no-op*/ }
 
     /*
@@ -53,7 +33,7 @@ class FirstAspect {
         * - any param type
         .. - 0+ any param type
      */
-    @Pointcut("isControllerLayer() && args(org.springframework.ui.Model, ..)") // at least 1 param
+    @Pointcut("com.farshonok.spring.aop.CommonAspect.isControllerLayer() && args(org.springframework.ui.Model, ..)") // at least 1 param
     // @Pointcut("args(org.springframework.ui.Model,*, *)") // 3 - parm in total
     fun hasModalParam() { /*no-op*/ }
 
@@ -64,19 +44,6 @@ class FirstAspect {
      */
      @Pointcut("@args(com.farshonok.spring.validators.UserInfo,..)") // 3 - parm in total
     fun hasHasUserInfoParamAnnotation() { /*no-op*/ }
-
-
-    /*
-        bean - check name of spring bean name
-     */
-    @Pointcut("bean(*Service)")
-    fun isServiceLayerBean() { /*no-op*/ }
-
-    /*
-        execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?
-     */
-    @Pointcut("execution(public * com.farshonok.spring.service.*Service.findById(..))")
-    fun anyFindByIdServiceMethod() { /*no-op*/ }
 
     /**
         Advices: Before, After, AfterReturning, AfterThrowing, Around
@@ -94,7 +61,7 @@ class FirstAspect {
     **/
 
 
-    @Before("""anyFindByIdServiceMethod()
+    @Before("""com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
         && args(id)
         && target(service)
         && @within(transactional)
@@ -110,7 +77,7 @@ class FirstAspect {
     }
 
     @AfterReturning(
-        value = """anyFindByIdServiceMethod()
+        value = """com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
             && @within(transactional)
@@ -129,7 +96,7 @@ class FirstAspect {
     }
 
     @AfterThrowing(
-        value = """anyFindByIdServiceMethod()
+        value = """com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
             && @within(transactional)
@@ -147,7 +114,7 @@ class FirstAspect {
     }
 
     @After(
-        value = """anyFindByIdServiceMethod()
+        value = """com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
             && @within(transactional)
