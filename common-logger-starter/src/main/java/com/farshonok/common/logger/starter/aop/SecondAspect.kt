@@ -1,4 +1,4 @@
-package com.farshonok.spring.aop
+package com.farshonok.common.logger.starter.aop
 
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
@@ -8,14 +8,12 @@ import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 
 @Aspect
-@Component
-@Order(2)
 class SecondAspect {
 
     val log = LoggerFactory.getLogger(SecondAspect::class.java)
 
     @Around(
-        value = """com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
+        value = """com.farshonok.common.logger.starter.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
         """,

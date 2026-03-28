@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+    implementation project(':common-logger-starter')
+    implementation project (':simple-custom-java-spring-starter')
+
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.postgresql:postgresql'

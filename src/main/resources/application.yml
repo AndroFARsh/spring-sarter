@@ -13,6 +13,13 @@ db:
       timeout: 2
 
 #spring.profiles.active: qa
+app:
+  common:
+    logging:
+      enabled: true
+      log-level: trace
+  simple:
+    enabled: true
 
 logging:
   level:

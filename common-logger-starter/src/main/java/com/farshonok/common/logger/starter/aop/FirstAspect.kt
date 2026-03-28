@@ -1,4 +1,4 @@
-package com.farshonok.spring.aop
+package com.farshonok.common.logger.starter.aop
 
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.ProceedingJoinPoint
@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Aspect
-@Component
-@Order(1)
 class FirstAspect {
 
     val log = LoggerFactory.getLogger(FirstAspect::class.java)
@@ -25,7 +23,7 @@ class FirstAspect {
     /*
         @annotation - check annotation on method level
      */
-    @Pointcut("com.farshonok.spring.aop.CommonAspect.isControllerLayer() && @annotation(org.springframework.web.bind.annotation.GetMapping)")
+    @Pointcut("com.farshonok.common.logger.starter.aop.CommonAspect.isControllerLayer() && @annotation(org.springframework.web.bind.annotation.GetMapping)")
     fun hasGetMapping() { /*no-op*/ }
 
     /*
@@ -33,7 +31,7 @@ class FirstAspect {
         * - any param type
         .. - 0+ any param type
      */
-    @Pointcut("com.farshonok.spring.aop.CommonAspect.isControllerLayer() && args(org.springframework.ui.Model, ..)") // at least 1 param
+    @Pointcut("com.farshonok.common.logger.starter.aop.CommonAspect.isControllerLayer() && args(org.springframework.ui.Model, ..)") // at least 1 param
     // @Pointcut("args(org.springframework.ui.Model,*, *)") // 3 - parm in total
     fun hasModalParam() { /*no-op*/ }
 
@@ -42,7 +40,7 @@ class FirstAspect {
         * - any param type
         .. - 0+ any param type
      */
-     @Pointcut("@args(com.farshonok.spring.validators.UserInfo,..)") // 3 - parm in total
+     @Pointcut("@args(com.farshonok.*.validators.UserInfo,..)") // 3 - parm in total
     fun hasHasUserInfoParamAnnotation() { /*no-op*/ }
 
     /**
@@ -61,7 +59,7 @@ class FirstAspect {
     **/
 
 
-    @Before("""com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
+    @Before("""com.farshonok.common.logger.starter.aop.CommonAspect.anyFindByIdServiceMethod()
         && args(id)
         && target(service)
         && @within(transactional)
@@ -96,7 +94,7 @@ class FirstAspect {
     }
 
     @AfterThrowing(
-        value = """com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
+        value = """com.farshonok.common.logger.starter.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
             && @within(transactional)
@@ -114,7 +112,7 @@ class FirstAspect {
     }
 
     @After(
-        value = """com.farshonok.spring.aop.CommonAspect.anyFindByIdServiceMethod()
+        value = """com.farshonok.common.logger.starter.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
             && @within(transactional)
@@ -131,7 +129,7 @@ class FirstAspect {
     }
 
     @Around(
-        value = """anyFindByIdServiceMethod()
+        value = """com.farshonok.common.logger.starter.aop.CommonAspect.anyFindByIdServiceMethod()
             && args(id)
             && target(service)
         """,

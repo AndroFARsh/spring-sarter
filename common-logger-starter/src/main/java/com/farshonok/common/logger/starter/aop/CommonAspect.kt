@@ -1,4 +1,4 @@
-package com.farshonok.spring.aop
+package com.farshonok.common.logger.starter.aop
 
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Pointcut
@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Aspect
-@Component
 class CommonAspect {
 
     val log = LoggerFactory.getLogger(CommonAspect::class.java)
@@ -21,7 +20,7 @@ class CommonAspect {
     /*
         within - check class type name
      */
-    @Pointcut("within(com.farshonok.spring.service.*Service)")
+    @Pointcut("within(com.farshonok.*.service.*Service)")
     fun isServiceLayer() { /*no-op*/ }
 
     /*
@@ -41,7 +40,7 @@ class CommonAspect {
     /*
         execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?
      */
-    @Pointcut("execution(public * com.farshonok.spring.service.*Service.findById(..))")
+    @Pointcut("execution(public * com.farshonok.*.service.*Service.findById(..))")
     fun anyFindByIdServiceMethod() { /*no-op*/ }
 
 }
